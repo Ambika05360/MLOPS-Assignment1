@@ -1,50 +1,41 @@
-name: Run Experiments
+name: Model Training and Evaluation
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  run_experiment:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Run experiment
-        run: python experiment.py
+    - name: Run model training and evaluation
+      run: |
+        python model.py
 
-      - name: Create report.md with timestamp
-        run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-          REPORT_FILE="${TIMESTAMP}_report.md"
-          echo "# Experiment Report - $TIMESTAMP" > $REPORT_FILE
-          echo "## Best Model" >> $REPORT_FILE
-          echo "Model: $(cat best_model_name.txt)" >> $REPORT_FILE
-          echo "Hyperparameters: $(cat best_model_params.txt)" >> $REPORT_FILE
-          echo "Accuracy: $(cat best_model_accuracy.txt)" >> $REPORT_FILE
-          git add $REPORT_FILE
-          git commit -m "Add experiment report $REPORT_FILE"
-          git push
-
-      - name: Store best model and push to GitHub
-        run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-          MODEL_FILE="${TIMESTAMP}_best_model.joblib"
-          cp best_model.joblib $MODEL_FILE
-          git add $MODEL_FILE
-          git commit -m "Add best model $MODEL_FILE"
-          git push
+    - name: Commit and push the model file
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add report.md
+        git commit -m "Add model and report with timestamp"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
