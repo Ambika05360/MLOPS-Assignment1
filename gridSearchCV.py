@@ -55,6 +55,10 @@ params = {
         'classifier__n_estimators': [50, 100],
         'classifier__max_depth': [None, 10, 20]
     },
+    'SVM': {
+        'classifier__C': [0.01, 0.1],
+        'classifier__kernel': ['linear']
+    }
 }
 
 # Perform Grid Search
@@ -77,31 +81,33 @@ for model_name, model in models.items():
         best_params = grid_search.best_params_
         best_score = grid_search.best_score_
 
-# Save the best model with timestamp
+# Save the best model with timestamp and accuracy in filename
 timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-model_filename = f'model_{timestamp}.joblib'
+accuracy = accuracy_score(y_test, best_model.predict(X_test))
+model_filename = f'GS_model_{timestamp}_{accuracy:.4f}.joblib'
 joblib.dump(best_model, model_filename)
 
 # Predict on test data with the best model
 y_pred = best_model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
 roc_auc = roc_auc_score(y_test, best_model.predict_proba(X_test)[:, 1])
 
 # Print accuracy and ROC AUC score
 print(f"Accuracy: {accuracy:.4f}, ROC AUC: {roc_auc:.4f}")
 
-# Save or append the report
-report_file = 'report.md'
-timestamp_heading = f"## Report {datetime.now().isoformat()}\n\n"
+# Save or append the Grid Search report
+grid_search_file = 'GridSearch.md'
+timestamp_heading = f"## {datetime.now().isoformat()}\n\n"
 
-if os.path.exists(report_file):
-    with open(report_file, 'a') as f:
+if os.path.exists(grid_search_file):
+    with open(grid_search_file, 'a') as f:
         f.write(f"{timestamp_heading}")
-        f.write(f"**Accuracy:** {accuracy:.4f}\n\n")
-        f.write(f"**ROC AUC:** {roc_auc:.4f}\n")
+        f.write(f"**Best Model:** {type(best_model.named_steps['classifier']).__name__}\n")
+        f.write(f"**Best Hyperparameters:** {best_params}\n")
+        f.write(f"**Best Score:** {best_score:.4f}\n")
 else:
-    with open(report_file, 'w') as f:
-        f.write(f"# Model Report\n\n")
+    with open(grid_search_file, 'w') as f:
+        f.write(f"# Grid Search Results\n\n")
         f.write(f"{timestamp_heading}")
-        f.write(f"**Accuracy:** {accuracy:.4f}\n\n")
-        f.write(f"**ROC AUC:** {roc_auc:.4f}\n")
+        f.write(f"**Best Model:** {type(best_model.named_steps['classifier']).__name__}\n")
+        f.write(f"**Best Hyperparameters:** {best_params}\n")
+        f.write(f"**Best Score:** {best_score:.4f}\n")

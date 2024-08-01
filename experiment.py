@@ -1,5 +1,3 @@
-import os
-import tempfile
 import numpy as np
 import pandas as pd
 import joblib
@@ -13,12 +11,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from datetime import datetime
-
-# Set up a temporary directory for MLflow artifacts
-artifact_location = tempfile.mkdtemp()
-
-# Configure MLflow to use the temporary directory for artifacts
-mlflow.set_tracking_uri(f'file://{artifact_location}')
+import os
 
 # Load the data
 data = pd.read_csv('diabetes_dataset.csv')
@@ -75,15 +68,27 @@ models = {
     }
 }
 
+results = []
+
 best_accuracy = 0
 best_model = None
 best_model_name = ""
 best_params = {}
 
+# Prepare report file
+report_file = 'ExpReport.csv'
+if not os.path.exists(report_file):
+    # Create file with headers if it does not exist
+    with open(report_file, 'w') as f:
+        f.write('Experiment ID,Timestamp,Model Name,Params,Accuracy,Roc AUC\n')
+
 for model_name, model_info in models.items():
     ModelClass = model_info["model"]
     for params in model_info["params"]:
-        with mlflow.start_run():
+        with mlflow.start_run() as run:
+            experiment_id = run.info.experiment_id
+            run_id = run.info.run_id
+
             # Log parameters
             for param_name, param_value in params.items():
                 mlflow.log_param(param_name, param_value)
@@ -112,6 +117,18 @@ for model_name, model_info in models.items():
             joblib.dump(preprocessor, "preprocessor.pkl")
             mlflow.log_artifact("preprocessor.pkl")
 
+            # Save results
+            results.append({
+                'model_name': model_name,
+                'params': params,
+                'accuracy': accuracy,
+                'roc_auc': roc_auc
+            })
+
+            # Append results to ExpReport file
+            with open(report_file, 'a') as f:
+                f.write(f"{experiment_id},{datetime.now().strftime('%Y-%m-%d %H:%M:%S')},{model_name},{params},{accuracy:.4f},{roc_auc:.4f}\n")
+
             # Update best model if current one is better
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
@@ -119,26 +136,12 @@ for model_name, model_info in models.items():
                 best_model_name = model_name
                 best_params = params
 
-                # Save best model information
-                with open("best_model_name.txt", "w") as f:
-                    f.write(best_model_name)
-                with open("best_model_params.txt", "w") as f:
-                    f.write(str(best_params))
-                with open("best_model_accuracy.txt", "w") as f:
-                    f.write(str(best_accuracy))
-
 # Save the best model with timestamp
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-best_model_filename = f"{timestamp}_best_model.joblib"
+best_model_filename = f"exp_bestmodel_{timestamp}.joblib"
 joblib.dump(best_model, best_model_filename)
 
 # Print best model and parameters
 print(f"Best Model: {best_model_name}")
 print(f"Best Hyperparameters: {best_params}")
 print(f"Best Accuracy: {best_accuracy:.4f}")
-
-# Save the best model and preprocessing pipeline together
-joblib.dump({
-    "model": best_model,
-    "preprocessor": preprocessor
-}, best_model_filename)

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/cdfc50dafee54856a765e1bc25d45a09/artifacts
+end_time: 1722519126031
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: cdfc50dafee54856a765e1bc25d45a09
+run_name: casual-whale-693
+run_uuid: cdfc50dafee54856a765e1bc25d45a09
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722519123714
+status: 3
+tags: []
+user_id: divya
