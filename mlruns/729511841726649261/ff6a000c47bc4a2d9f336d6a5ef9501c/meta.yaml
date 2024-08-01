@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/ff6a000c47bc4a2d9f336d6a5ef9501c/artifacts
+end_time: 1722509865566
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: ff6a000c47bc4a2d9f336d6a5ef9501c
+run_name: skillful-vole-83
+run_uuid: ff6a000c47bc4a2d9f336d6a5ef9501c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722509863481
+status: 3
+tags: []
+user_id: divya

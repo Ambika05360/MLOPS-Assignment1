@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/9c675afe6ccb42509388746bbf30f596/artifacts
+end_time: 1722509867706
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: 9c675afe6ccb42509388746bbf30f596
+run_name: nervous-sloth-121
+run_uuid: 9c675afe6ccb42509388746bbf30f596
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722509865582
+status: 3
+tags: []
+user_id: divya

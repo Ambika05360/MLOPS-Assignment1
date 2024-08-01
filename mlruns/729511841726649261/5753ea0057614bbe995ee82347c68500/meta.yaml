@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/5753ea0057614bbe995ee82347c68500/artifacts
+end_time: 1722509917741
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: 5753ea0057614bbe995ee82347c68500
+run_name: bald-lark-546
+run_uuid: 5753ea0057614bbe995ee82347c68500
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722509913337
+status: 3
+tags: []
+user_id: divya

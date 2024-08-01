@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/472f7e494ae74363b4309e10d9db2516/artifacts
+end_time: 1722509402676
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: 472f7e494ae74363b4309e10d9db2516
+run_name: nebulous-moose-299
+run_uuid: 472f7e494ae74363b4309e10d9db2516
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722509399218
+status: 3
+tags: []
+user_id: divya
