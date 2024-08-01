@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/d894aa6d45c440fe988e7ddfc6ad77ad/artifacts
+end_time: 1722521416976
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: d894aa6d45c440fe988e7ddfc6ad77ad
+run_name: stately-calf-757
+run_uuid: d894aa6d45c440fe988e7ddfc6ad77ad
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722521400358
+status: 3
+tags: []
+user_id: divya

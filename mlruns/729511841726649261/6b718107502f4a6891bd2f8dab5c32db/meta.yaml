@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/divya/OneDrive%20-%20wilp.bits-pilani.ac.in/Bits/Sem3/MLOPS/05360/MLOPS-Assignment1/mlruns/729511841726649261/6b718107502f4a6891bd2f8dab5c32db/artifacts
+end_time: 1722521363131
+entry_point_name: ''
+experiment_id: '729511841726649261'
+lifecycle_stage: active
+run_id: 6b718107502f4a6891bd2f8dab5c32db
+run_name: fortunate-bass-217
+run_uuid: 6b718107502f4a6891bd2f8dab5c32db
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722521360513
+status: 3
+tags: []
+user_id: divya
