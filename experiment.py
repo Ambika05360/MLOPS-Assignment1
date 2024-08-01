@@ -1,3 +1,5 @@
+import os
+import tempfile
 import numpy as np
 import pandas as pd
 import joblib
@@ -11,6 +13,12 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from datetime import datetime
+
+# Set up a temporary directory for MLflow artifacts
+artifact_location = tempfile.mkdtemp()
+
+# Configure MLflow to use the temporary directory for artifacts
+mlflow.set_tracking_uri(f'file://{artifact_location}')
 
 # Load the data
 data = pd.read_csv('diabetes_dataset.csv')
@@ -110,6 +118,14 @@ for model_name, model_info in models.items():
                 best_model = model
                 best_model_name = model_name
                 best_params = params
+
+                # Save best model information
+                with open("best_model_name.txt", "w") as f:
+                    f.write(best_model_name)
+                with open("best_model_params.txt", "w") as f:
+                    f.write(str(best_params))
+                with open("best_model_accuracy.txt", "w") as f:
+                    f.write(str(best_accuracy))
 
 # Save the best model with timestamp
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
