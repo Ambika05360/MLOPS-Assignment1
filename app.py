@@ -1,27 +1,23 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 import joblib
- 
+
 app = Flask(__name__)
- 
-# Load the model
-model = joblib.load('m3-model.pkl')
- 
-@app.route('/predict', methods=['POST'])
+
+@app.route('/')
+def home():
+    return "Welcome to the Diabetes Prediction Model API!"
+
+@app.route('/predict', methods=['GET'])
 def predict():
-    try:
-        data = request.get_json()
-        print(data)
-        features = data.get('features')
-        if features is None:
-            return jsonify({'error': 'No features provided'}), 400
- 
-        # Make prediction
-        prediction = model.predict([features])
-        return jsonify({'prediction': prediction.tolist()})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
- 
+    # Load the trained model
+    model = joblib.load('GS_model.joblib')
+
+    # For simplicity, let's use dummy data for prediction
+    dummy_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+
+    # Predict using the loaded model
+    prediction = model.predict(dummy_data)
+    return jsonify({'prediction': prediction.tolist()})
+
 if __name__ == '__main__':
-    app.run(debug=True)
- 
-#curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d "{\"features\": [1.5, 2.5, 3.5, 4.5]}"
+    app.run(host='0.0.0.0', port=5000)
