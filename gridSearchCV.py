@@ -73,6 +73,7 @@ timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
 accuracy = accuracy_score(y_test, best_model.predict(X_test))
 model_filename = f'GS_model_{timestamp}_{accuracy:.4f}.joblib'
 joblib.dump(best_model, model_filename)
+joblib.dump(best_model, 'm3-model.pkl')
 # Predict on test data with the best model
 y_pred = best_model.predict(X_test)
 roc_auc = roc_auc_score(y_test, best_model.predict_proba(X_test)[:, 1])
