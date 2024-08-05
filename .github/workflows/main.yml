@@ -29,6 +29,7 @@ jobs:
     - name: Run model training and evaluation
       run: |
         python model.py
+        python experiment.py
 
     - name: Commit and push the model file
       run: |
