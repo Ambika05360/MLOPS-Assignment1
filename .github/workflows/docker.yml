@@ -20,4 +20,4 @@ jobs:
       run: docker build -t myimage:latest .
 
     - name: Run Docker container
-      run: docker run myimage:latest
+      run: docker run -d -p 5000:5000 myimage:latest
