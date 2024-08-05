@@ -10,5 +10,5 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run gridSearchCV.py when the container launches
-CMD ["python", "gridSearchCV.py"]
+# Run the grid search and start the Flask app
+CMD ["sh", "-c", "python gridSearchCV.py && python app.py"]
