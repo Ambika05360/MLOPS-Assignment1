@@ -35,18 +35,25 @@ jobs:
         echo "Flask app did not start in time" >&2
         exit 1
 
+    - name: List files before running gridSearchCV.py
+      run: ls -al
+
     - name: Run gridSearchCV.py
       run: |
         python gridSearchCV.py
 
-    - name: List files in the directory after script run
+    - name: List files after running gridSearchCV.py
       run: ls -al
 
     - name: Find latest model file
       id: find_model
       run: |
         latest_model=$(ls -t GS_model*.joblib 2>/dev/null | head -n 1)
-        echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
+        if [ -z "$latest_model" ]; then
+          echo "No model file found" >&2
+        else
+          echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
+        fi
 
     - name: Print latest model file
       run: echo "Latest model file: $LATEST_MODEL"
