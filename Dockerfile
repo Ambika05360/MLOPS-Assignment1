@@ -13,5 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# Run gridSearchCV.py and then start the Flask app
-CMD ["sh", "-c", "python gridSearchCV.py && python app.py"]
+# Run gridSearchCV.py to train the model
+RUN python gridSearchCV.py
+
+# Run the Flask app
+CMD ["python", "app.py"]
