@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import joblib
 import os
 from datetime import datetime
@@ -16,7 +16,15 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    # Ensure the request contains JSON data
+    if not request.json:
+        return jsonify({"error": "No input data provided"}), 400
+
+    # Extract features from the request data
+    input_data = request.json
     # Implement your prediction logic here
+    # Example: prediction = model.predict([input_data])
+    # For now, we return a placeholder response
     return jsonify({"message": "Prediction endpoint"})
 
 if __name__ == '__main__':
