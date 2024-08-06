@@ -39,8 +39,7 @@ jobs:
       run: ls -al
 
     - name: Run gridSearchCV.py
-      run: |
-        python gridSearchCV.py
+      run: python gridSearchCV.py
 
     - name: List files after running gridSearchCV.py
       run: ls -al
@@ -51,6 +50,7 @@ jobs:
         latest_model=$(ls -t GS_model*.joblib 2>/dev/null | head -n 1)
         if [ -z "$latest_model" ]; then
           echo "No model file found" >&2
+          echo "LATEST_MODEL=" >> $GITHUB_ENV
         else
           echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
         fi
