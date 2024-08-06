@@ -17,6 +17,9 @@ data = pd.read_csv('diabetes_dataset.csv')
 categorical_cols = ['gender', 'location', 'smoking_history']
 numerical_cols = ['year', 'age', 'bmi', 'hbA1c_level', 'blood_glucose_level']
 
+#To demonstrate version control
+print(categorical_cols)
+
 # Define preprocessing for numerical columns (scale them)
 numeric_transformer = Pipeline(steps=[
     ('scaler', StandardScaler())])
