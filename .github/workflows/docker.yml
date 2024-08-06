@@ -46,6 +46,7 @@ jobs:
         done
         echo "Flask app did not start in time" >&2
         exit 1
+        
     - name: Test Flask app
       run: |
         curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d "{\"features\": [1.5, 2.5, 3.5, 4.5]}"
