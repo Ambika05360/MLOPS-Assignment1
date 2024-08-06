@@ -24,9 +24,14 @@ def load_latest_model():
 model = load_latest_model()
 
 @app.route('/')
-def index():
-    app.logger.info("Index route called")
-    return jsonify({"message": "Welcome to the Flask app!"})
+def home():
+    return 'Hello, World!'
+    
+# @app.route('/')
+# def index():
+    
+    # app.logger.info("Index route called")
+    # return jsonify({"message": "Welcome to the Flask app!"})
 
 @app.route('/predict', methods=['POST'])
 def predict():
