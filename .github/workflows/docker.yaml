@@ -59,11 +59,8 @@ jobs:
       run: echo "Latest model file: $LATEST_MODEL"
 
     - name: Commit and push the model file
+      if: env.LATEST_MODEL != ''
       run: |
-        if [ -z "$LATEST_MODEL" ]; then
-          echo "No model file found. Skipping commit."
-          exit 0
-        fi
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         git add $LATEST_MODEL
