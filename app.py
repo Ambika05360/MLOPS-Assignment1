@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import joblib
 import os
 import numpy as np
+from pyngrok import ngrok
 
 app = Flask(__name__)
 
@@ -40,4 +41,10 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    # Start Flask app
+    port = 5000
+    # Start ngrok tunnel
+    ngrok.set_auth_token("YOUR_NGROK_AUTH_TOKEN")  # Optional, if you have an ngrok auth token
+    public_url = ngrok.connect(port)
+    print(f" * ngrok tunnel \"{public_url}\" -> \"http://127.0.0.1:{port}\"")
+    app.run(host='0.0.0.0', port=port)
