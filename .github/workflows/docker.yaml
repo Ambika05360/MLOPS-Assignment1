@@ -35,14 +35,20 @@ jobs:
         echo "Flask app did not start in time" >&2
         exit 1
 
-    - name: Print Flask app URL
-      run: echo "Flask app is running at http://localhost:5000"
+    - name: List files in the directory
+      run: ls -al
+
+    - name: Find latest model file
+      id: find_model
+      run: |
+        latest_model=$(ls -t GS_model*.joblib | head -n 1)
+        echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
 
     - name: Commit and push the model file
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
-        git add GS_model*.joblib
+        git add $LATEST_MODEL
         git add report.md
         git commit -m "Add model and report with timestamp"
         git push
