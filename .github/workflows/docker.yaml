@@ -22,41 +22,41 @@ jobs:
     - name: Run Docker container
       run: docker run -d -p 5000:5000 --name mycontainer myimage:latest
 
+    - name: Check Docker container logs
+      run: docker logs mycontainer
+
     - name: Wait for the Flask app to be up
       run: |
         echo "Waiting for the Flask app to be up..."
-        for i in {1..10}; do
+        for i in {1..20}; do
           if curl -s http://localhost:5000; then
             echo "Flask app is up!"
             exit 0
           fi
-          sleep 5
+          sleep 10
         done
         echo "Flask app did not start in time" >&2
         exit 1
 
     - name: List files before running gridSearchCV.py
-      run: ls -al
+      run: docker exec mycontainer ls -al
 
     - name: Run gridSearchCV.py
-      run: python gridSearchCV.py
+      run: docker exec mycontainer python gridSearchCV.py
 
     - name: List files after running gridSearchCV.py
-      run: ls -al
+      run: docker exec mycontainer ls -al
 
     - name: Find latest model file
       id: find_model
       run: |
-        latest_model=$(ls -t GS_model*.joblib 2>/dev/null | head -n 1)
-        if [ -z "$latest_model" ]; then
-          echo "LATEST_MODEL=" >> $GITHUB_ENV
-        else
-          echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
-        fi
+        latest_model=$(docker exec mycontainer ls -t GS_model*.joblib 2>/dev/null | head -n 1)
+        echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
 
     - name: Print latest model file
-      run: |
-        echo "Latest model file: $LATEST_MODEL"
+      run: echo "Latest model file: $LATEST_MODEL"
+      env:
+        LATEST_MODEL: ${{ env.LATEST_MODEL }}
 
     - name: Commit and push the model file
       if: env.LATEST_MODEL != ''
