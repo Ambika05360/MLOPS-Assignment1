@@ -39,11 +39,13 @@ def predict():
     try:
         print(f"Received input data: {input_data}")  # Log input data
         input_array = np.array(input_data).reshape(1, -1)  # Reshape for single sample prediction
+        print(f"Input array shape: {input_array.shape}")  # Log input array shape
         prediction = model.predict(input_array)
+        print(f"Prediction result: {prediction}")  # Log prediction result
         return jsonify({"prediction": prediction.tolist()})
     except Exception as e:
         print(f"Error during prediction: {e}")  # Log any exception
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
