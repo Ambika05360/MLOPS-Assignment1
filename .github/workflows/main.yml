@@ -39,6 +39,7 @@ jobs:
         git add model_20240801184047.joblib
         git add exp_bestmodel_20240801_191151.joblib
         git add exp_bestmodel_20240801_194023.joblib
+        git add 20240801_163255_best_model.joblib
         git add report.md
         git commit -m "Add model and report with timestamp"
         git push
