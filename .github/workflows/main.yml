@@ -1,4 +1,4 @@
-name: Model Training and Evaluation
+name: Model Training and Evaluations
 
 on:
   push:
