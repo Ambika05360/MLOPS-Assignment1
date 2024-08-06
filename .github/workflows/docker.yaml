@@ -35,17 +35,28 @@ jobs:
         echo "Flask app did not start in time" >&2
         exit 1
 
-    - name: List files in the directory
+    - name: Run gridSearchCV.py
+      run: |
+        python gridSearchCV.py
+
+    - name: List files in the directory after script run
       run: ls -al
 
     - name: Find latest model file
       id: find_model
       run: |
-        latest_model=$(ls -t GS_model*.joblib | head -n 1)
+        latest_model=$(ls -t GS_model*.joblib 2>/dev/null | head -n 1)
         echo "LATEST_MODEL=${latest_model}" >> $GITHUB_ENV
+
+    - name: Print latest model file
+      run: echo "Latest model file: $LATEST_MODEL"
 
     - name: Commit and push the model file
       run: |
+        if [ -z "$LATEST_MODEL" ]; then
+          echo "No model file found. Skipping commit."
+          exit 0
+        fi
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         git add $LATEST_MODEL
