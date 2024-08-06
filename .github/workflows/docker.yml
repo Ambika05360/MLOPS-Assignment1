@@ -37,7 +37,27 @@ jobs:
 
     - name: Test Flask app
       run: |
-        curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"features": [2023, 1, 45, 2, 0, 1, 0, 0, 0, 1, 0, 1, 23.5, 6.1, 90]}'
+        curl -X POST http://localhost:5000/predict \
+        -H "Content-Type: application/json" \
+        -d '{
+           "features": {
+             "year": 2020,
+             "gender": "Female",
+             "age": 32,
+             "location": "Alabama",
+             "race:AfricanAmerican": 0,
+             "race:Asian": 0,
+             "race:Caucasian": 0,
+             "race:Hispanic": 0,
+             "race:Other": 1,
+             "hypertension": 0,
+             "heart_disease": 0,
+             "smoking_history": "never",
+             "bmi": 27.32,
+             "hbA1c_level": 5,
+             "blood_glucose_level": 100
+           }
+         }'
 
     - name: Commit and push the model file
       run: |
