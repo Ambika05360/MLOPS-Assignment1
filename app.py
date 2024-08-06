@@ -6,12 +6,17 @@ import numpy as np
 app = Flask(__name__)
 
 def load_latest_model():
-    model_files = [f for f in os.listdir() if f.startswith('GS_model') and f.endswith('.joblib')]
-    if not model_files:
-        raise RuntimeError("No model files found")
-    latest_model_file = max(model_files, key=os.path.getctime)
-    print(f"Loading model file: {latest_model_file}")  # Log model file name
-    return joblib.load(latest_model_file)
+    try:
+        model_files = [f for f in os.listdir() if f.startswith('GS_model') and f.endswith('.joblib')]
+        if not model_files:
+            raise RuntimeError("No model files found")
+        latest_model_file = max(model_files, key=os.path.getctime)
+        print(f"Loading model file: {latest_model_file}")  # Log model file name
+        model = joblib.load(latest_model_file)
+        return model
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        raise
 
 model = load_latest_model()
 
@@ -37,7 +42,7 @@ def predict():
         prediction = model.predict(input_array)
         return jsonify({"prediction": prediction.tolist()})
     except Exception as e:
-        print(f"Error: {e}")  # Log any exception
+        print(f"Error during prediction: {e}")  # Log any exception
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
