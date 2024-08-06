@@ -1,4 +1,4 @@
-name: Model Training and Evaluation
+name: Model Training, Docker Build, and Evaluation
 
 on:
   push:
@@ -32,6 +32,32 @@ jobs:
         python experiment.py
         python GridSearchCV.py
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      run: docker build -t my-flask-app -f Dockerfile.flask .
+
+    - name: Run Docker container
+      run: docker run -d -p 5000:5000 --name my-flask-app my-flask-app
+
+    - name: Wait for the Flask app to be up
+      run: |
+        echo "Waiting for the Flask app to be up..."
+        for i in {1..20}; do
+          if curl -s http://localhost:5000/; then
+            echo "Flask app is up!"
+            exit 0
+          fi
+          sleep 10
+        done
+        echo "Flask app did not start in time" >&2
+        exit 1
+
+    - name: Test Flask app
+      run: |
+        curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d "{\"features\": [1.5, 2.5, 3.5, 4.5]}"
+
     - name: Commit and push the model file
       run: |
         git config --global user.name 'github-actions'
@@ -40,4 +66,4 @@ jobs:
         git commit -m "Add model and report with timestamp"
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
